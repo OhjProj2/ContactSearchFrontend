@@ -1,0 +1,88 @@
+:root {
+/* Backgrounds */
+    --bg-main: #121212;       /* Standard Material Design dark */
+    --bg-panel: #1e1e1e;      /* Panel background */
+    
+    /* Text */
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    
+    /* Accents */
+    --primary: #342cd2;       /* White accent (high contrast) */
+    --border: #2e2e2e;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    color: var(--text-primary)
+}
+
+body {
+    display: flex;
+    flex: 1;
+    background-color: var(--bg-main);
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+}
+
+.app-container {
+    display: flex;;
+    flex: 1;
+    margin: 20px;
+    padding: 10px;
+}
+
+.input-panel, .output-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 30px;
+    outline: auto;
+}
+
+input[type="text"], textarea {
+    background-color: var(--bg-panel);
+    color: var(--text-primary);
+
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 50px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background-color: #3b82f6; /* Bright Blue */
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+

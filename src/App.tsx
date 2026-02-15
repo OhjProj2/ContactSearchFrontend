@@ -1,6 +1,45 @@
 import './styles/App.css';
+import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import { useState } from 'react';
+import { searchContacts } from './services/api';
+import type { SearchResponse } from './types';
 
 function App() {
+
+  const [url, setUrl] = useState<string>("");
+
+  const [occupations, setOccupations] = useState<any>(null);
+
+  const [selectedFields, setSelectedFields] = useState({
+    name: true,
+    email: true,
+    phone: false,
+    linkedin: false
+  });
+
+  const handleCheckboxClick = (field: keyof typeof selectedFields) => {
+    setSelectedFields((prev) => ({
+      ...prev,
+       [field]: !prev[field]
+    }))
+  }
+
+  const [results, setResults] = useState<SearchResponse | null>(null);
+
+  const handleSearchClick = async () => {
+    setResults(null); 
+    try {
+      const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
+      
+        console.log("Sending request...");
+        
+        console.log("Data received:", data);
+        setResults(data);
+
+      } catch (err) {
+        console.error(err);
+      }
+  };
 
   return (
     <>
@@ -15,26 +54,72 @@ function App() {
             placeholder="Enter URLs here (each on a new line)"
             rows={3}
             style={{backgroundColor: "transparent"}}
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
            />
 
           <h3>2. Occupation / Role</h3>
-          <input type="text"
+          <textarea
             placeholder="Enter occupation or role"
+            rows={3}
             style={{backgroundColor: "transparent"}}
-          />
+            value={occupations}
+            onChange={(e) => setOccupations(e.target.value)}
+           />
 
           <h3>3. Data points</h3>
           <div className='checkbox-group'>
-            <label className="checkbox-label"><input type="checkbox" checked/> Full Name</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Email</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Phone Number</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Address</label>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedFields.name}
+                  onChange={() => handleCheckboxClick("name")}
+                  />
+              }
+              label="Name"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedFields.email}
+                  onChange={() => handleCheckboxClick("email")}
+                  />
+              }
+              label="Email"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedFields.phone}
+                  onChange={() => handleCheckboxClick("phone")}
+                  />
+              }
+              label="Phone number"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedFields.linkedin}
+                  onChange={() => handleCheckboxClick("linkedin")}
+                  />
+              }
+              label="LinkedIn"
+            />
           </div>
 
-          <button className='primary-btn'>Search</button>
+          <Button
+           variant='contained'
+           style={{borderRadius: '8px'}}
+           onClick={handleSearchClick}
+          >
+            Search
+          </Button>
         </div>
 
         <div className="output-panel">
+          <div className='output-container'>
+
+          </div>
         </div>
 
       </div>

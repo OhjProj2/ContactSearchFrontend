@@ -8,7 +8,7 @@ function App() {
 
   const [url, setUrl] = useState<string>("");
 
-  const [occupations, setOccupations] = useState<any>(null);
+  const [occupations, setOccupations] = useState<string>("");
 
   const [selectedFields, setSelectedFields] = useState<any>({
     name: true,
@@ -31,15 +31,19 @@ function App() {
     setNewField("");
   };
 
+  const [loading, setLoading] = useState<string>("")
+
   const handleSearchClick = async () => {
     setResults(null);
+    setLoading("Loading, please wait...")
+    
     try {
-      const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
-
       console.log("Sending request...");
-
+      const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
+        
       console.log("Data received:", data);
       setResults(data);
+      setLoading("")
 
     } catch (err) {
       console.error(err);
@@ -56,7 +60,7 @@ function App() {
 
           <h3>1. Target websites</h3>
           <textarea
-            placeholder="Enter URLs here (each on a new line)"
+            placeholder="Enter URL"
             rows={3}
             style={{backgroundColor: "transparent"}}
             value={url}
@@ -112,9 +116,27 @@ function App() {
           </Button>
         </div>
 
+
         <div className="output-panel">
+          <h3>Output</h3>
           <div className='output-container'>
-            <pre>{JSON.stringify(results, null, 2)}</pre>
+
+            {loading}
+              
+            {results && results.contacts.map((contact, index) => (
+              <div key={index}>
+
+                {Object.entries(contact).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}:</strong> {value}
+                  </div>
+                ))}
+
+                <hr />
+
+              </div>
+            ))}
+
           </div>
         </div>
 

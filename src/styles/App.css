@@ -6,10 +6,8 @@
     /* Text */
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
-    
-    /* Accents */
-    --primary: #342cd2;       /* White accent (high contrast) */
-    --border: #2e2e2e;
+
+    --primary: #1976d2;
 }
 
 html, body {
@@ -46,7 +44,14 @@ body {
     padding: 20px;
     border-radius: 30px;
     outline: auto;
+}
+
+.input-panel {
     justify-content: space-around;
+}
+
+.output-panel {
+    justify-content: flex-start;
 }
 
 input[type="text"], textarea {
@@ -72,6 +77,29 @@ input[type="text"], textarea {
     font-size: 1.2rem;
     color: #cbd5e1;
     cursor: pointer;
+}
+
+.output-container {
+    overflow-y: auto;
+    max-height: 500px;
+    flex: 1;
+}
+
+.output-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.output-container::-webkit-scrollbar-track {
+    background: var(--bg-panel);
+}
+
+.output-container::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+.output-container::-webkit-scrollbar-thumb:hover {
+    background: #1565c0;
 }
 
 

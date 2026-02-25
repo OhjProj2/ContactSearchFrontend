@@ -1,5 +1,5 @@
 import './styles/App.css';
-import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import { Button, TextField, FormControl } from '@mui/material';
 import { useState } from 'react';
 import { searchContacts } from './services/api';
 import type { SearchResponse } from './types';
@@ -10,35 +10,40 @@ function App() {
 
   const [occupations, setOccupations] = useState<any>(null);
 
-  const [selectedFields, setSelectedFields] = useState({
+  const [selectedFields, setSelectedFields] = useState<any>({
     name: true,
     email: true,
-    phone: false,
-    linkedin: false
+    phone: false
   });
-
-  const handleCheckboxClick = (field: keyof typeof selectedFields) => {
-    setSelectedFields((prev) => ({
-      ...prev,
-       [field]: !prev[field]
-    }))
-  }
-
+  const [fields, setFields] = useState([
+    "name",
+    "email",
+    "phone",
+    "linkedin"
+  ]);
+  const [newField, setNewField] = useState("");
+  
   const [results, setResults] = useState<SearchResponse | null>(null);
 
+  const handleAddField = () => {
+    if (!newField) return;
+    setFields([...fields, newField]);
+    setNewField("");
+  };
+
   const handleSearchClick = async () => {
-    setResults(null); 
+    setResults(null);
     try {
       const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
-      
-        console.log("Sending request...");
-        
-        console.log("Data received:", data);
-        setResults(data);
 
-      } catch (err) {
-        console.error(err);
-      }
+      console.log("Sending request...");
+
+      console.log("Data received:", data);
+      setResults(data);
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -56,7 +61,7 @@ function App() {
             style={{backgroundColor: "transparent"}}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-           />
+          />
 
           <h3>2. Occupation / Role</h3>
           <textarea
@@ -65,52 +70,43 @@ function App() {
             style={{backgroundColor: "transparent"}}
             value={occupations}
             onChange={(e) => setOccupations(e.target.value)}
-           />
+          />
 
           <h3>3. Data points</h3>
-          <div className='checkbox-group'>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedFields.name}
-                  onChange={() => handleCheckboxClick("name")}
-                  />
-              }
-              label="Name"
+          <div style={{marginTop: "-20px"}}>
+            <TextField
+              size="small"
+              placeholder="Add new field"
+              value={newField}
+              onChange={(e) => setNewField(e.target.value)}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedFields.email}
-                  onChange={() => handleCheckboxClick("email")}
-                  />
-              }
-              label="Email"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedFields.phone}
-                  onChange={() => handleCheckboxClick("phone")}
-                  />
-              }
-              label="Phone number"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedFields.linkedin}
-                  onChange={() => handleCheckboxClick("linkedin")}
-                  />
-              }
-              label="LinkedIn"
-            />
+            <Button
+              variant="outlined"
+              style={{marginLeft: "8px"}}
+              onClick={handleAddField}>
+              Add
+            </Button>
           </div>
+          <FormControl fullWidth>
+            <div style={{display: "flex", gap: "8px"}}>
+              {fields.map((field) => (
+                <Button
+                  key={field}
+                  variant={selectedFields[field] ? "contained" : "outlined"}
+                  onClick={() => {
+                    const copy = { ...selectedFields };
+                    copy[field] = !copy[field];
+                    setSelectedFields(copy);}}>
+                  {field}
+                </Button>
+              ))}
+            </div>
+          </FormControl>
 
           <Button
-           variant='contained'
-           style={{borderRadius: '8px'}}
-           onClick={handleSearchClick}
+            variant='contained'
+            style={{borderRadius: '8px'}}
+            onClick={handleSearchClick}
           >
             Search
           </Button>
@@ -118,7 +114,7 @@ function App() {
 
         <div className="output-panel">
           <div className='output-container'>
-
+            <pre>{JSON.stringify(results, null, 2)}</pre>
           </div>
         </div>
 

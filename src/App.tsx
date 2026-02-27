@@ -1,6 +1,54 @@
 import './styles/App.css';
+import { Button, TextField, FormControl } from '@mui/material';
+import { useState } from 'react';
+import { searchContacts } from './services/api';
+import type { SearchResponse } from './types';
 
 function App() {
+
+  const [url, setUrl] = useState<string>("");
+
+  const [occupations, setOccupations] = useState<string>("");
+
+  const [selectedFields, setSelectedFields] = useState<any>({
+    name: true,
+    email: true,
+    phone: false
+  });
+  const [fields, setFields] = useState([
+    "name",
+    "email",
+    "phone",
+    "linkedin"
+  ]);
+  const [newField, setNewField] = useState("");
+  
+  const [results, setResults] = useState<SearchResponse | null>(null);
+
+  const handleAddField = () => {
+    if (!newField) return;
+    setFields([...fields, newField]);
+    setNewField("");
+  };
+
+  const [loading, setLoading] = useState<string>("")
+
+  const handleSearchClick = async () => {
+    setResults(null);
+    setLoading("Loading, please wait...")
+    
+    try {
+      console.log("Sending request...");
+      const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
+        
+      console.log("Data received:", data);
+      setResults(data);
+      setLoading("")
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -12,29 +60,84 @@ function App() {
 
           <h3>1. Target websites</h3>
           <textarea
-            placeholder="Enter URLs here (each on a new line)"
+            placeholder="Enter URL"
             rows={3}
             style={{backgroundColor: "transparent"}}
-           />
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
 
           <h3>2. Occupation / Role</h3>
-          <input type="text"
+          <textarea
             placeholder="Enter occupation or role"
+            rows={3}
             style={{backgroundColor: "transparent"}}
+            value={occupations}
+            onChange={(e) => setOccupations(e.target.value)}
           />
 
           <h3>3. Data points</h3>
-          <div className='checkbox-group'>
-            <label className="checkbox-label"><input type="checkbox" checked/> Full Name</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Email</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Phone Number</label>
-            <label className="checkbox-label"><input type="checkbox" checked/> Address</label>
+          <div style={{marginTop: "-20px"}}>
+            <TextField
+              size="small"
+              placeholder="Add new field"
+              value={newField}
+              onChange={(e) => setNewField(e.target.value)}
+            />
+            <Button
+              variant="outlined"
+              style={{marginLeft: "8px"}}
+              onClick={handleAddField}>
+              Add
+            </Button>
           </div>
+          <FormControl fullWidth>
+            <div style={{display: "flex", gap: "8px"}}>
+              {fields.map((field) => (
+                <Button
+                  key={field}
+                  variant={selectedFields[field] ? "contained" : "outlined"}
+                  onClick={() => {
+                    const copy = { ...selectedFields };
+                    copy[field] = !copy[field];
+                    setSelectedFields(copy);}}>
+                  {field}
+                </Button>
+              ))}
+            </div>
+          </FormControl>
 
-          <button className='primary-btn'>Search</button>
+          <Button
+            variant='contained'
+            style={{borderRadius: '8px'}}
+            onClick={handleSearchClick}
+          >
+            Search
+          </Button>
         </div>
 
+
         <div className="output-panel">
+          <h3>Output</h3>
+          <div className='output-container'>
+
+            {loading}
+              
+            {results && results.contacts.map((contact, index) => (
+              <div key={index}>
+
+                {Object.entries(contact).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}:</strong> {value}
+                  </div>
+                ))}
+
+                <hr />
+
+              </div>
+            ))}
+
+          </div>
         </div>
 
       </div>

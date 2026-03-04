@@ -34,5 +34,6 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
         throw new Error(`API Request Failed: ${response.status} ${response.statusText}`);
     }
 
-    return await response.json()
+    const result: SearchResponse = await response.json();
+    return result;
 }

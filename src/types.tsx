@@ -1,5 +1,8 @@
 export type Contact = Record<string, any>;
 
 export interface SearchResponse {
-    contacts: Contact[];
+    data: {
+        contacts: Contact[];
+    }
+    time: number;
 }

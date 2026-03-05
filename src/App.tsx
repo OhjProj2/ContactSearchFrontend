@@ -119,26 +119,29 @@ function App() {
 
         <div className="output-panel">
           <h3>Output</h3>
-          <div className='output-container'>
+        <div className='output-container'>
 
-            {loading}
-              
-            {results && results.contacts.map((contact, index) => (
-              <div key={index}>
+          {loading}
 
-                {Object.entries(contact).map(([key, value]) => (
-                  <div key={key}>
-                    <strong>{key}:</strong> {value}
-                  </div>
-                ))}
+          {results && (
+            <div style={{ marginBottom: '10px', color: '#666', fontSize: '0.9rem' }}>
+              Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
+            </div>
+          )}
+            
+          {results && results.data.contacts.map((contact: any, index: number) => (
+            <div key={index}>
+              {Object.entries(contact).map(([key, value]) => (
+                <div key={key}>
+                  <strong>{key}:</strong> {String(value)}
+                </div>
+              ))}
+              <hr />
+            </div>
+          ))}
 
-                <hr />
-
-              </div>
-            ))}
-
-          </div>
         </div>
+      </div>
 
       </div>
     </>

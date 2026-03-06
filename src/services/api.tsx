@@ -1,6 +1,6 @@
 import type { SearchResponse } from "../types";
 
-const API_URL = "http://localhost:8000/seek/";
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/seek/`;
 
 interface SearchParams {
     url: string

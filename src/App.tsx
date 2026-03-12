@@ -133,7 +133,7 @@ function App() {
             <div key={index}>
               {Object.entries(contact).map(([key, value]) => (
                 <div key={key}>
-                  <strong>{key}:</strong> {String(value)}
+                  <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
                 </div>
               ))}
               <hr />

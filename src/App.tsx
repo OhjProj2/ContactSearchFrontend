@@ -2,6 +2,7 @@ import './styles/App.css';
 import { Button, TextField, FormControl } from '@mui/material';
 import { useState } from 'react';
 import { searchContacts } from './services/api';
+import Papa from 'papaparse';
 import type { SearchResponse } from './types';
 
 function App() {
@@ -31,11 +32,11 @@ function App() {
     setNewField("");
   };
 
-  const [loading, setLoading] = useState<string>("")
+  const [status, setStatus] = useState<string>("")
 
   const handleSearchClick = async () => {
     setResults(null);
-    setLoading("Loading, please wait...")
+    setStatus("Loading, please wait...")
     
     try {
       console.log("Sending request...");
@@ -43,12 +44,28 @@ function App() {
         
       console.log("Data received:", data);
       setResults(data);
-      setLoading("")
+      setStatus("")
 
     } catch (err) {
       console.error(err);
+      setResults(null);
+      setStatus("Oops, something went wrong. Please try again.");
     }
   };
+  
+
+  const exportToCSV = () => {
+    if (!results) return;
+
+    const csv = Papa.unparse(results.data.contacts);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = "contacts.csv";
+    link.click();
+  }
 
   return (
     <>
@@ -118,27 +135,35 @@ function App() {
 
 
         <div className="output-panel">
+
           <h3>Output</h3>
-        <div className='output-container'>
-
-          {loading}
-
-          {results && (
-            <div style={{ marginBottom: '10px', color: '#666', fontSize: '0.9rem' }}>
-              Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
-            </div>
-          )}
-            
-          {results && results.data.contacts.map((contact: any, index: number) => (
-            <div key={index}>
-              {Object.entries(contact).map(([key, value]) => (
-                <div key={key}>
-                  <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
+            {results && (
+              <div className="time_and_export">
+                <div style={{ marginBottom: '10px', color: '#666', fontSize: '0.9rem' }}>
+                  Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
                 </div>
-              ))}
-              <hr />
-            </div>
-          ))}
+                <Button
+                  variant="outlined"
+                  onClick={exportToCSV}
+                >
+                  Export to CSV
+                </Button>
+              </div>
+            )}
+          <div className='output-container'>
+
+            {status}
+              
+            {results && results.data.contacts.map((contact: any, index: number) => (
+              <div key={index}>
+                {Object.entries(contact).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
+                  </div>
+                ))}
+                <hr />
+              </div>
+            ))}
 
         </div>
       </div>

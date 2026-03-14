@@ -17,7 +17,7 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
 
     const payload = {
         occupations: [params.occupations],
-        contact_details: activeFields,
+        contact_details: ["occupation", ...activeFields],
         url: params.url
     };
 

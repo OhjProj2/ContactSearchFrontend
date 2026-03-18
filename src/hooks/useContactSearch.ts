@@ -9,7 +9,6 @@ export function useContactSearch() {
   const search = async (params: SearchParams) => {
     setResults(null);
     setStatus("Loading, please wait...");
-
     try {
       const data = await searchContacts(params);
       setResults(data);

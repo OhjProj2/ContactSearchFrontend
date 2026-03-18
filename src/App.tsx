@@ -1,20 +1,13 @@
 import './styles/App.css';
 import { useState } from 'react';
-import { searchContacts } from './services/api';
-import type { SearchResponse } from './types';
 import { InputPanel } from './components/InputPanel';
 import { OutputPanel } from './components/OutputPanel';
-
-
+import { useContactSearch } from './hooks/useContactSearch';
 
 function App() {
-  
   const [url, setUrl] = useState<string>("");
   const [occupations, setOccupations] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
   const [newField, setNewField] = useState("");
-  const [results, setResults] = useState<SearchResponse | null>(null);
-
   const [selectedFields, setSelectedFields] = useState<any>({
     name: true,
     email: true,
@@ -25,7 +18,6 @@ function App() {
     "name",
     "email",
     "phone",
-    "linkedin"
   ]);
   
   const handleAddField = () => {
@@ -33,48 +25,32 @@ function App() {
     setFields([...fields, newField]);
     setNewField("");
   };
-  const handleSearchClick = async () => {
-    setResults(null);
-    setStatus("Loading, please wait...")
-    try {
-      console.log("Sending request...");
-      const data = await searchContacts({ url: url, occupations: occupations, selectedFields: selectedFields});
-      console.log("Data received:", data);
-      setResults(data);
-      setStatus("")
-    } catch (err) {
-      console.error(err);
-      setResults(null);
-      setStatus("Oops, something went wrong. Please try again.");
-    }
-  };
 
-
+  const { results, status, search } = useContactSearch();
+  
   return (
     <>
       <h1>Contact Search</h1>
 
       <div className="app-container">
-
-      <InputPanel
-        url={url}
-        setUrl={setUrl}
-        occupations={occupations}
-        setOccupations={setOccupations}
-        fields={fields}
-        newField={newField}
-        setNewField={setNewField}
-        selectedFields={selectedFields}
-        setSelectedFields={setSelectedFields}
-        onAddField={handleAddField}
-        onSearch={handleSearchClick}
-      />
-
-      <OutputPanel
-        results={results}
-        status={status}
-      />
-
+        <InputPanel
+          url={url}
+          setUrl={setUrl}
+          occupations={occupations}
+          setOccupations={setOccupations}
+          fields={fields}
+          newField={newField}
+          setNewField={setNewField}
+          selectedFields={selectedFields}
+          setSelectedFields={setSelectedFields}
+          onAddField={handleAddField}
+          onSearch={() => search({ url, occupations, selectedFields })}
+        />
+  
+        <OutputPanel
+          results={results}
+          status={status}
+        />
       </div>
     </>
   );

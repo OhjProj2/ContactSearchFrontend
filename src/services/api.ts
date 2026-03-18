@@ -1,13 +1,6 @@
-import type { SearchResponse } from "../types";
+import type { SearchParams, SearchResponse } from "../types";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/seek/`;
-
-interface SearchParams {
-    url: string
-    occupations: string
-    selectedFields: { [key: string]: boolean}
-    
-}
 
 export const searchContacts = async (params: SearchParams): Promise<SearchResponse> => {
 

@@ -3,8 +3,9 @@ import { Button, TextField, FormControl } from '@mui/material';
 import { useState } from 'react';
 import { searchContacts } from './services/api';
 import type { SearchResponse } from './types';
-
+import Login from './Login';
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [url, setUrl] = useState<string>("");
 
@@ -49,6 +50,9 @@ function App() {
       console.error(err);
     }
   };
+    if (!loggedIn) {
+    return <Login onLogin={() => setLoggedIn(true)} />;
+  }
 
   return (
     <>

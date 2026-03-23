@@ -40,6 +40,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: 70vh;
     margin: 10px;
     padding: 20px;
     border-radius: 30px;
@@ -63,25 +64,15 @@ input[type="text"], textarea {
     font-size: 16px;
 }
 
-.checkbox-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-    margin-bottom: 50px;
-}
-
-.checkbox-label {
+.time_and_export {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-    color: #cbd5e1;
-    cursor: pointer;
+    margin: 8px 0px;
 }
 
 .output-container {
     overflow-y: auto;
-    max-height: 500px;
     flex: 1;
 }
 

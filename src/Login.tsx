@@ -3,6 +3,7 @@ import { useState } from "react";
 function Login({ onLogin }: { onLogin: () => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     const res = await fetch("http://localhost:8000/login/", {
@@ -10,7 +11,14 @@ function Login({ onLogin }: { onLogin: () => void }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
-    if (res.ok) onLogin();
+
+    if (res.ok) {
+      setError("");
+      onLogin();
+    } else {
+      setError("Username or password is incorrect");
+      setTimeout(() => setError(""), 2000);
+    }
   };
 
   return (
@@ -51,18 +59,16 @@ function Login({ onLogin }: { onLogin: () => void }) {
       />
       <button
         onClick={handleSubmit}
-        style={{
-          padding: "15px",
-          borderRadius: "12px",
-          border: "none",
-          backgroundColor: "#1e1e1e",
-          color: "#fff",
-          fontSize: "18px",
-          cursor: "pointer",
-        }}
+        className="button"
+        style={{ padding: "16px" }}
       >
         Login
       </button>
+      {error && (
+        <div style={{ color: "white", fontSize: "16px", textAlign: "center" }}>
+          {error}
+        </div>
+      )}
     </div>
   );
 }

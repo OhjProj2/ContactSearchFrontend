@@ -1,12 +1,15 @@
 import { useState } from "react";
 
 function Login({ onLogin }: { onLogin: () => void }) {
+
+  const API_URL = `${import.meta.env.VITE_BACKEND_URL}/login/`;
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
-    const res = await fetch("http://localhost:8000/login/", {
+    const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),

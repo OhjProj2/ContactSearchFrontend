@@ -17,9 +17,9 @@ export function OutputPanel({ results, status }: Props) {
                     <div style={{ color: '#666', fontSize: '0.9rem' }}>
                         Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
                     </div>
-                    <button className="button" onClick={() => exportToCSV(results.data.contacts)}>
+                    <Button className="button" onClick={() => exportToCSV(results.data.contacts)}>
                         Export to CSV
-                    </button>
+                    </Button>
                 </div>
             )}
 

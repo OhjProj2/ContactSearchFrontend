@@ -3,6 +3,17 @@
 
 ContactSearch is a website, made for easy contact information search on different sites. It uses AI to gather and structurize the information.
 
+## Technologies
+
+### Languages
+- Typescript
+- HTML
+- CSS
+
+### Libraries
+- React
+- MUI
+- Papaparser
 
 ## Installation
 

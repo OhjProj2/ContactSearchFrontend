@@ -1,7 +1,7 @@
 export interface SearchParams {
     url: string
     occupations: string
-    selectedFields: { [key: string]: boolean}  
+    dataPoints: string[]  
 }
 
 export interface SearchResponse {

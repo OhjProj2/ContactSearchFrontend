@@ -1,3 +1,6 @@
+import { Button } from "@heroui/react";
+import "../styles/HeroUITheme.css"
+
 import { useState } from "react";
 
 function Login({ onLogin }: { onLogin: () => void }) {
@@ -32,6 +35,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
       width: "400px",
       margin: "100px auto",
     }}>
+
       <input
         type="text"
         placeholder="Username"
@@ -46,6 +50,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
           fontSize: "18px",
         }}
       />
+
       <input
         type="password"
         placeholder="Password"
@@ -60,13 +65,22 @@ function Login({ onLogin }: { onLogin: () => void }) {
           fontSize: "18px",
         }}
       />
-      <button
+
+      <Button
         onClick={handleSubmit}
-        className="button"
+        className="w-full"
         style={{ padding: "16px" }}
       >
         Login
-      </button>
+      </Button>
+      
+      <Button
+        onClick={() => window.location.href = "/coming_soon"}
+        className="w-full"
+        style={{ padding: "16px" }}
+      >
+        Login
+      </Button>
       {error && (
         <div style={{ color: "white", fontSize: "16px", textAlign: "center" }}>
           {error}

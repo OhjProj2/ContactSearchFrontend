@@ -3,6 +3,7 @@ import type { SearchParams, SearchResponse } from "../types";
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/seek/`;
 const DATABASE_LIST_URL = `${import.meta.env.VITE_BACKEND_URL}/listdbs/`;
 const COLLECTIONS_LIST_URL = `${import.meta.env.VITE_BACKEND_URL}/listcollections`;
+const FIELDS_LIST_URL = `${import.meta.env.VITE_BACKEND_URL}/listfields`;
 
 
 export const databaseList = async (): Promise<string[]> => {
@@ -16,6 +17,15 @@ export const databaseList = async (): Promise<string[]> => {
 
 export const listCollections = async (dbName: string): Promise<string[]> => {
   const response = await fetch(`${COLLECTIONS_LIST_URL}?db_name=${dbName}`);
+  if (!response.ok) {
+    throw new Error(`API Request Failed: ${response.status} ${response.statusText}`);
+  }
+  const result: string[] = await response.json();
+  return result;
+}
+
+export const listFields = async (): Promise<string[]> => {
+  const response = await fetch(FIELDS_LIST_URL);
   if (!response.ok) {
     throw new Error(`API Request Failed: ${response.status} ${response.statusText}`);
   }

@@ -1,7 +1,9 @@
 export interface SearchParams {
     url: string
     occupations: string
-    dataPoints: string[]  
+    dataPoints: string[]
+    database?: string
+    collection?: string
 }
 
 export interface SearchResponse {

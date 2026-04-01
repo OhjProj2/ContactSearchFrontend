@@ -4,11 +4,12 @@ import Home from './pages/home';
 import Login from './pages/Login';
 import Databases from './pages/coming_soon';
 import { MainLayout } from './layouts/MainLayout';
+import { DatabaseProvider } from './context/DatabaseContext';
 
 function App() {
   
   return (
-    <>
+    <DatabaseProvider>
       <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
@@ -16,7 +17,7 @@ function App() {
         <Route path="/coming_soon" element={<Databases />} />
       </Route>
     </Routes>
-    </>
+    </DatabaseProvider>
   );
 }
 

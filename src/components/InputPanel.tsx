@@ -1,6 +1,7 @@
 import { Button, Label, TextArea, Form, Card, Input } from "@heroui/react";
 import { useState } from "react";
 import type { SearchParams } from "../types";
+import { useDatabase } from "../context/DatabaseContext";
 
 type InputPanelProps = {
   search: (params: SearchParams) => Promise<void>;
@@ -17,6 +18,8 @@ export function InputPanel({ search }: InputPanelProps) {
     email: true,
     phone: true,
   })
+
+  const { selectedDb, selectedCollection } = useDatabase();
 
   return (
       <Form className="flex flex-col gap-4 w-full">  {/* Form Container */}
@@ -69,7 +72,15 @@ export function InputPanel({ search }: InputPanelProps) {
         </Card>
 
         <Button
-          onClick={() => search({ url, occupations, dataPoints: Object.keys(fields) })}
+          onClick={() => {
+            search({ 
+              url, 
+              occupations, 
+              dataPoints: Object.keys(fields), 
+              database: selectedDb || undefined,
+              collection: selectedCollection || undefined
+            });
+          }}
           className="w-full">
           Search
         </Button>

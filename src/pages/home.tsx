@@ -6,7 +6,7 @@ import {Table} from "@heroui/react";
 
 function Home() {
 
-  const {results, status, search} = useContactSearch();
+  const {results, search} = useContactSearch();
 
   const contacts = results?.data.contacts || [
     {"name": "John Doe", "email": "john.doe@example.com", "phone": "123-456-7890", "occupation": "Software Engineer"},

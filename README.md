@@ -12,7 +12,8 @@ ContactSearch is a website, made for easy contact information search on differen
 
 ### Libraries
 - React
-- MUI
+- HeroUI
+- TailwindCSS
 - Papaparser
 
 ## Installation

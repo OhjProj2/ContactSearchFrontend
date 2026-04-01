@@ -10,12 +10,12 @@ function App() {
   return (
     <>
       <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login onLogin={() => {}} />} />
-        <Route path="/coming_soon" element={<Databases />} />
-      </Route>
-    </Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login onLogin={() => {}} />} />
+          <Route path="/coming_soon" element={<Databases />} />
+        </Route>
+      </Routes>
     </>
   );
 }

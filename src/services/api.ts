@@ -6,12 +6,12 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
 
 
     const payload = {
-        occupations: [params.occupations],
+        occupations: params.occupations,
         contact_details: ["occupation", ...params.dataPoints],
         url: params.url
     };
 
-    console.log(payload);
+    console.log(" sending request: ", payload);
 
     const response = await fetch(API_URL, {
         method: 'POST',

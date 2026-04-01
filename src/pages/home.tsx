@@ -2,46 +2,61 @@ import '../styles/App.css';
 import "../styles/HeroUITheme.css"
 import { InputPanel } from '../components/InputPanel';
 import { useContactSearch } from '../hooks/useContactSearch';
-import {Table} from "@heroui/react";
+import {Table, ProgressCircle, Button} from "@heroui/react";
+import { exportToCSV } from '../utils/csv';
 
 function Home() {
-
-  const {results, status, search} = useContactSearch();
-
+  
+  const {results, loading, search} = useContactSearch();
+  
   const contacts = results?.data.contacts || [
-    {"name": "John Doe", "email": "john.doe@example.com", "phone": "123-456-7890", "occupation": "Software Engineer"},
+    {name: "", email: "", phone: ""},
   ];
   
   return (
     <>
-
       <div className="gap-6 flex flex-col max-w-7xl mx-auto">
         <InputPanel
         search={search}
         />
 
-          <Table className="h-">
-            <Table.ScrollContainer>
-              <Table.Content aria-label="Example table">
-                <Table.Header>
-                    <Table.Row>
-                      {Object.keys(contacts[0] || {}).map((key, index) => (
-                        <Table.Column key={key} isRowHeader={index === 0}>{key}</Table.Column>
+        {loading && (
+        <ProgressCircle isIndeterminate color='default' aria-label="Loading">
+          <ProgressCircle.Track>
+            <ProgressCircle.TrackCircle />
+            <ProgressCircle.FillCircle />
+          </ProgressCircle.Track>
+        </ProgressCircle>
+        )}
+
+
+        {results && 
+        (<Table className="h-">
+          <Table.ScrollContainer>
+            <Table.Content aria-label="Example table">
+              <Table.Header>
+                  {Object.keys(contacts[0] || {}).map((key, index) => (
+                    <Table.Column key={key} isRowHeader={index === 0}>{key.charAt(0).toUpperCase() + key.slice(1)}</Table.Column>
+                  ))} 
+              </Table.Header>
+              <Table.Body>
+                  {contacts.map((contact, index) => (
+                    <Table.Row key={index}>
+                      {Object.values(contact).map((value, col) => (
+                        <Table.Cell key={col}>{value}</Table.Cell>
                       ))}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {contacts.map((contact, index) => (
-                      <Table.Row key={index}>
-                        {Object.values(contact).map((value, idx) => (
-                          <Table.Cell key={idx}>{value}</Table.Cell>
-                        ))}
-                      </Table.Row>
-                    ))}
-                </Table.Body>
-              </Table.Content>
-            </Table.ScrollContainer>
-          </Table>
+                    </Table.Row>))}
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+          <Table.Footer className="flex flex-row-reverse items-center gap-4 p-1">
+            <Button
+              onClick={() => exportToCSV(contacts)}>
+              Export Data
+            </Button>
+          </Table.Footer>
+        </Table>
+        )}
       </div>
     </>
   );

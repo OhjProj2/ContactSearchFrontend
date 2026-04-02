@@ -4,20 +4,20 @@ import type { SearchResponse, SearchParams } from "../types";
 
 export function useContactSearch() {
   const [results, setResults] = useState<SearchResponse | null>(null);
-  const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const search = async (params: SearchParams) => {
     setResults(null);
-    setStatus("Loading, please wait...");
+    setLoading(true);
     try {
       const data = await searchContacts(params);
       setResults(data);
-      setStatus("");
+      setLoading(false);
     } catch {
       setResults(null);
-      setStatus("Oops, something went wrong. Please try again.");
+      setLoading(false);
     }
   };
 
-  return { results, status, search };
+  return { results, loading, search };
 }

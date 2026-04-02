@@ -4,15 +4,14 @@ const API_URL = `${import.meta.env.VITE_BACKEND_URL}/seek/`;
 
 export const searchContacts = async (params: SearchParams): Promise<SearchResponse> => {
 
-    const activeFields = Object.keys(params.selectedFields).filter(
-        (key) => params.selectedFields[key]
-    );
 
     const payload = {
-        occupations: [params.occupations],
-        contact_details: ["occupation", ...activeFields],
+        occupations: params.occupations,
+        contact_details: ["occupation", ...params.dataPoints],
         url: params.url
     };
+
+    console.log(" sending request: ", payload);
 
     const response = await fetch(API_URL, {
         method: 'POST',
@@ -26,6 +25,7 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
     if (!response.ok) {
         throw new Error(`API Request Failed: ${response.status} ${response.statusText}`);
     }
+
 
     const result: SearchResponse = await response.json();
     return result;

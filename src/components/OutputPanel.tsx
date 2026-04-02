@@ -1,6 +1,6 @@
 import type { SearchResponse } from '../types';
-import { Button } from '@mui/material';
 import { exportToCSV } from '../utils/csv';
+import { Card } from '@heroui/react';
 import '../styles/App.css';
 
 type Props = {
@@ -10,16 +10,16 @@ type Props = {
 
 export function OutputPanel({ results, status }: Props) {
     return (
-        <div className="output-panel">
+        <Card>
             <h3>Output</h3>
             {results && (
                 <div className="time_and_export">
                     <div style={{ color: '#666', fontSize: '0.9rem' }}>
                         Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
                     </div>
-                    <Button className="button" onClick={() => exportToCSV(results.data.contacts)}>
+                    <button className="button" onClick={() => exportToCSV(results.data.contacts)}>
                         Export to CSV
-                    </Button>
+                    </button>
                 </div>
             )}
 
@@ -37,6 +37,6 @@ export function OutputPanel({ results, status }: Props) {
                 ))}
 
             </div>
-        </div>
+        </Card>
     )
 }

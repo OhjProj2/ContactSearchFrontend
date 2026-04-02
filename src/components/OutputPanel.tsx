@@ -1,42 +1,58 @@
-import type { SearchResponse } from '../types';
-import { exportToCSV } from '../utils/csv';
-import { Card } from '@heroui/react';
-import '../styles/App.css';
-
+ import { Table, ProgressCircle, Button } from "@heroui/react"
+ import { exportToCSV } from "../utils/csv"
+import type { SearchResponse } from "../types"
+ 
 type Props = {
-    results: SearchResponse | null;
-    status: string;
+  results: SearchResponse | null
+  loading: boolean
 }
 
-export function OutputPanel({ results, status }: Props) {
-    return (
-        <Card>
-            <h3>Output</h3>
-            {results && (
-                <div className="time_and_export">
-                    <div style={{ color: '#666', fontSize: '0.9rem' }}>
-                        Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong>
-                    </div>
-                    <button className="button" onClick={() => exportToCSV(results.data.contacts)}>
-                        Export to CSV
-                    </button>
-                </div>
-            )}
+export function OutputPanel({results, loading}: Props) {
+  
+  const contacts = results?.data.contacts || [
+    {name: "", email: "", phone: ""},
+  ];
 
-            <div className='output-container'>
-                {status}
-                {results && results.data.contacts.map((contact: any, index: number) => (
-                    <div key={index}>
-                        {Object.entries(contact).map(([key, value]) => (
-                            <div key={key}>
-                                <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
-                            </div>
-                        ))}
-                        <hr style={{ width: "90%", margin: "10px 0 10px 0", borderColor: "#8f8f8f" }} />
-                    </div>
+  return(
+    <>
+      {loading && (
+        <ProgressCircle isIndeterminate color='default' aria-label="Loading">
+        <ProgressCircle.Track>
+        <ProgressCircle.TrackCircle />
+        <ProgressCircle.FillCircle />
+        </ProgressCircle.Track>
+        </ProgressCircle>
+      )}
+      
+      
+      {results && 
+      (<Table className="h-">
+        <Table.ScrollContainer>
+          <Table.Content aria-label="Example table">
+            <Table.Header>
+            {Object.keys(contacts[0] || {}).map((key, index) => (
+              <Table.Column key={key} isRowHeader={index === 0}>{key.charAt(0).toUpperCase() + key.slice(1)}</Table.Column>
+            ))} 
+            </Table.Header>
+            <Table.Body>
+            {contacts.map((contact, index) => (
+              <Table.Row key={index}>
+                {Object.values(contact).map((value, col) => (
+                  <Table.Cell key={col}>{value}</Table.Cell>
                 ))}
-
-            </div>
-        </Card>
-    )
+              </Table.Row>))}
+              </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
+        <Table.Footer className="flex justify-between items-center gap-4 p-2">  
+        <p>Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong></p>              
+          <Button
+            onClick={() => exportToCSV(contacts)}>
+            Export Data
+          </Button>
+          </Table.Footer>
+        </Table>
+        )}
+    </>
+  )
 }

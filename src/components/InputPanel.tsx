@@ -33,8 +33,7 @@ export function InputPanel({ search }: InputPanelProps) {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             rows={5}
-            required={true}
-          />
+            required={true}/>
         </Card>
 
         <Card className="flex flex-col">   {/* Occupation Input */}
@@ -46,9 +45,7 @@ export function InputPanel({ search }: InputPanelProps) {
             value={occupations}
             onChange={(e) => {
               setOccupations(e.target.value)
-
-            }}
-          />
+            }}/>
         </Card>
 
         <Card>  {/* Data Points Input */}

@@ -18,7 +18,6 @@ export function InputPanel({ search }: InputPanelProps) {
   const handleSearch = () => {
     const occupationsArray = occupations ?occupations.split(",").map((occ) => occ.trim()) : [""];
     search({ url, occupations: occupationsArray, dataPoints: fields})
-    console.log( typeof(occupationsArray), occupationsArray)
   }
 
   return (
@@ -47,7 +46,7 @@ export function InputPanel({ search }: InputPanelProps) {
             value={occupations}
             onChange={(e) => {
               setOccupations(e.target.value)
-              console.log(occupations)
+
             }}
           />
         </Card>

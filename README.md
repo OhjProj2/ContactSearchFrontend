@@ -16,6 +16,12 @@ ContactSearch is a website, made for easy contact information search on differen
 - TailwindCSS
 - Papaparser
 
+Testing:
+- Vitest
+- React Testing Library
+- jest-dom
+- jsdom
+
 ## Installation
 
 You can install frontend with next steps:
@@ -50,6 +56,11 @@ or
 
 ```bash
   npm run start
+```
+
+## Run Tests Locally
+```bash
+npm test
 ```
 ## Authors
 

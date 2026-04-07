@@ -1,6 +1,9 @@
 
 # ContactSearch
 
+[![CI](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml)
+
+
 ContactSearch is a website, made for easy contact information search on different sites. It uses AI to gather and structurize the information.
 
 ## Technologies

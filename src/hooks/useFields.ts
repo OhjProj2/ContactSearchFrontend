@@ -13,7 +13,7 @@ export function useFields() {
   useEffect(() => {
     async function fetchFields() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/listfields");
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/listfields`);
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const data: Field[] = await res.json();
         setFields(data);

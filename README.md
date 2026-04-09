@@ -1,6 +1,9 @@
 
 # ContactSearch
 
+[![CI](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml)
+
+
 ContactSearch is a website, made for easy contact information search on different sites. It uses AI to gather and structurize the information.
 
 ## Technologies
@@ -15,6 +18,12 @@ ContactSearch is a website, made for easy contact information search on differen
 - HeroUI
 - TailwindCSS
 - Papaparser
+
+Testing:
+- Vitest
+- React Testing Library
+- jest-dom
+- jsdom
 
 ## Installation
 
@@ -50,6 +59,11 @@ or
 
 ```bash
   npm run start
+```
+
+## Run Tests Locally
+```bash
+npm test
 ```
 ## Authors
 

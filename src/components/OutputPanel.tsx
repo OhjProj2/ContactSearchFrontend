@@ -16,7 +16,7 @@ export function OutputPanel({results, loading}: Props) {
   return(
     <>
       {loading && (
-        <ProgressCircle isIndeterminate color='default' aria-label="Loading">
+        <ProgressCircle valueLabel="Loading..." isIndeterminate color='default' aria-label="Loading">
         <ProgressCircle.Track>
         <ProgressCircle.TrackCircle />
         <ProgressCircle.FillCircle />

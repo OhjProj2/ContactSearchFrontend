@@ -1,6 +1,6 @@
 import { server } from "@/msw/server";
 import { http, HttpResponse } from "msw";
-import { renderHook, act, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useFields } from "@/hooks/useFields";
 
 // Tests that the hook successfully fetches fields from the API

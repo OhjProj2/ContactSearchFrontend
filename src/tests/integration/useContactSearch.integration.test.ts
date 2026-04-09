@@ -45,7 +45,7 @@ test("sets loading state correctly during search", async () => {
 // Tests how the hook handles API failures gracefully
 test("handles API failure gracefully", async () => {
     server.use(
-        http.post("http://localhost:8000/seek/", () => {
+        http.post(`${import.meta.env.VITE_BACKEND_URL}/seek/`, () => {
             return HttpResponse.error();
         })
     );

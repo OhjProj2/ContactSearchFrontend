@@ -6,7 +6,7 @@ import { useFields } from "@/hooks/useFields";
 // Tests that the hook successfully fetches fields from the API
 test("fetches fields successfully", async () => {
     server.use(
-        http.get("http://127.0.0.1:8000/listfields", () => {
+        http.get(`${import.meta.env.VITE_BACKEND_URL}/listfields`, () => {
             return HttpResponse.json([
                 { label: "Email", value: "email" },
             ]);
@@ -27,7 +27,7 @@ test("fetches fields successfully", async () => {
 // Tests how the hook handles API errors gracefully
 test("handles API error", async () => {
     server.use(
-        http.get("http://127.0.0.1:8000/listfields", () => {
+        http.get(`${import.meta.env.VITE_BACKEND_URL}/listfields`, () => {
             return HttpResponse.error();
         })
     );

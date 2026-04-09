@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.post("http://localhost:8000/seek/", async () => {
+  http.post(`${import.meta.env.VITE_BACKEND_URL}/seek/`, async () => {
     return HttpResponse.json({
       data: {
         contacts: [{ name: "John" }],
@@ -10,7 +10,7 @@ export const handlers = [
     });
   }),
 
-  http.get("http://127.0.0.1:8000/listfields", () => {
+  http.get(`${import.meta.env.VITE_BACKEND_URL}/listfields`, () => {
     return HttpResponse.json([
       { label: "Email", value: "email" },
       { label: "Name", value: "name" },

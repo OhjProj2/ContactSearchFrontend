@@ -44,7 +44,7 @@ test("sets loading state correctly during search", async () => {
 
 test("handles API failure gracefully", async () => {
     server.use(
-        http.post("http://localhost:8000/seek/", () => {
+        http.post(`${import.meta.env.VITE_BACKEND_URL}/seek`, () => {
             return HttpResponse.error();
         })
     );
@@ -68,7 +68,7 @@ test("handles API failure gracefully", async () => {
 
 test("handles network failure", async () => {
     server.use(
-        http.post("http://localhost:8000/seek/", () => {
+        http.post(`${import.meta.env.VITE_BACKEND_URL}/seek/`, () => {
             return HttpResponse.error();
         })
     );

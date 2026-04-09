@@ -3,9 +3,9 @@ import { OutputPanel } from "@/components/OutputPanel";
 
 test("renders status text", () => {
     // Tests that the status message is always displayed in the output panel
-    render(<OutputPanel results={null} status="Loading..." />);
+    render(<OutputPanel results={null} loading={true} />);
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
 });
 
 test("renders number of contacts when results exist", () => {
@@ -17,7 +17,7 @@ test("renders number of contacts when results exist", () => {
         },
     };
 
-    render(<OutputPanel results={mockResults as any} status="" />);
+    render(<OutputPanel results={mockResults as any} loading={false} />);
 
     expect(screen.getByText(/Found 2 contacts/i)).toBeInTheDocument();
 });
@@ -31,9 +31,9 @@ test("renders contact fields correctly", () => {
         },
     };
 
-    render(<OutputPanel results={mockResults as any} status="" />);
+    render(<OutputPanel results={mockResults as any} loading={false} />);
 
-    expect(screen.getByText(/Name:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Email:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Name/i)).toBeInTheDocument();
+    expect(screen.getByText(/Email/i)).toBeInTheDocument();
     expect(screen.getByText("John")).toBeInTheDocument();
 });

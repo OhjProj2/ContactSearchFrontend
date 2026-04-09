@@ -69,17 +69,15 @@ function Login({ onLogin }: { onLogin: () => void }) {
       <Button
         onClick={handleSubmit}
         className="w-full"
-        style={{ padding: "16px" }}
-      >
+        style={{ padding: "16px" }}>
         Login
       </Button>
       
       <Button
         onClick={() => window.location.href = "/coming_soon"}
         className="w-full"
-        style={{ padding: "16px" }}
-      >
-        Login
+        style={{ padding: "16px" }}>
+        Register
       </Button>
       {error && (
         <div style={{ color: "white", fontSize: "16px", textAlign: "center" }}>

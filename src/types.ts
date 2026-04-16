@@ -5,6 +5,7 @@ export interface SearchParams {
 }
 
 export interface SearchResponse {
+    id: string;
     data: {
         contacts: Record<string, string | number | null>[];
     }

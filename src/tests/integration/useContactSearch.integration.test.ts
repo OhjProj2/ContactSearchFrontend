@@ -1,11 +1,11 @@
 import { server } from "@/msw/server";
 import { http, HttpResponse } from "msw";
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { useContactSearch } from "@/hooks/useContactSearch";
+import { useSearch } from "@/hooks/useSearch";
 
 // Tests that the hook returns valid search results from the API
 test("returns search results from API", async () => {
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({
@@ -25,7 +25,7 @@ test("returns search results from API", async () => {
 
 // Tests that loading state is managed correctly during a search request
 test("sets loading state correctly during search", async () => {
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({
@@ -50,7 +50,7 @@ test("handles API failure gracefully", async () => {
         })
     );
 
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({

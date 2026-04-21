@@ -1,11 +1,11 @@
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { server } from "@/msw/server";
 import { http, HttpResponse } from "msw";
-import { useContactSearch } from "@/hooks/useContactSearch";
+import { useSearch } from "@/hooks/useSearch";
 
 // Tests how the hook behaves when the API returns a server error (500)
 test("returns search results from API", async () => {
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({
@@ -25,7 +25,7 @@ test("returns search results from API", async () => {
 
 // Tests how the hook behaves when a network error occurs
 test("sets loading state correctly during search", async () => {
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({
@@ -49,7 +49,7 @@ test("handles API failure gracefully", async () => {
         })
     );
 
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({
@@ -73,7 +73,7 @@ test("handles network failure", async () => {
         })
     );
 
-    const { result } = renderHook(() => useContactSearch());
+    const { result } = renderHook(() => useSearch());
 
     await act(async () => {
         await result.current.search({

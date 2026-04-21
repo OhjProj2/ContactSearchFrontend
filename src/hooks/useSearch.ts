@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { searchContacts } from "../services/api";
+import { searchContacts } from "../services/searchContancts";
 import type { SearchResponse, SearchParams } from "../types";
 
-export function useContactSearch() {
+export function useSearch() {
   const [results, setResults] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
 

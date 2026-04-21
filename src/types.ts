@@ -11,3 +11,9 @@ export interface SearchResponse {
     }
     time: number;
 }
+
+export interface SaveParams {
+    id: string;
+    db_name: string;
+    col_name: string;
+}

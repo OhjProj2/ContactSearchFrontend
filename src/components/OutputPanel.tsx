@@ -1,6 +1,5 @@
  import { Table, ProgressCircle, Button } from "@heroui/react"
  import { exportToCSV } from "../utils/csv"
- import { saveIdToColl } from "../services/saveIdToColl.ts"
 import type { SearchResponse } from "../types"
 import { SaveButton } from "./SaveButton.tsx"
  

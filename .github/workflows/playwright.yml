@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create env file
+        run: echo "VITE_BACKEND_URL=http://localhost:8000" >> .env
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 

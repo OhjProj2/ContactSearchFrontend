@@ -1,11 +1,13 @@
+import type { SaveParams } from "@/types";
+
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/copybyid`;
 
-export async function saveIdToColl(id: string) {
+export const saveIdToColl = async (params: SaveParams) => {
   
     const payload = {
-        id: id,
-        db_name: "targetdb", // MUST BE CHANGED TO USE SELECTED DB after needed feature is created
-        col_name: "targetcol" // MUST BE CHANGED TO USE SELECTED COLLECTION after needed feature is created
+        id: params.id,
+        db_name: params.db_name,
+        col_name: params.col_name
     };
 
     console.log("trying to save data: ", payload);

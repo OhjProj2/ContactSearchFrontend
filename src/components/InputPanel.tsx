@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import {CircleXmark, Magnifier, CirclePlus} from '@gravity-ui/icons';
 import type { SearchParams } from "../types";
 import { useFields } from "../hooks/useFields";
+import { useModels } from "../hooks/useModels";
+import { Select, ListBoxItem, Popover, ListBox, SelectValue } from "@heroui/react";
 type InputPanelProps = {
   search: (params: SearchParams) => Promise<void>;
 };
@@ -15,6 +17,9 @@ type Field = {
 export function InputPanel({ search }: InputPanelProps) {
   const [url, setUrl] = useState<any>()
   const [occupations, setOccupations] = useState<string>("")
+  const [selectedModel, setSelectedModel] = useState<string>("");
+
+  const { models, loading: modelsLoading } = useModels();
 
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])
@@ -37,12 +42,25 @@ useEffect(() => {
   const handleSearch = () => {
     const occupationsArray = occupations ?occupations.split(",").map((occ) => occ.trim()) : [""];
     const activeDataPoints = fields.filter(f => activeFields[f.value]).map(f => f.value);
-    search({ url, occupations: occupationsArray, dataPoints: activeDataPoints });
+    search({ url, occupations: occupationsArray, dataPoints: activeDataPoints, model: selectedModel });
   }
 
   return (
       <Card className="flex flex-col gap-4 w-full bg-surface-secondary">
-        
+
+        <div className="flex flex-col gap-2 p-4 bg-surface-secondary border rounded-lg">
+          <label className="text-sm font-medium">0. Choose AI Model</label>
+          <select
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            className="bg-black text-white border border-gray-700 rounded-md p-2 outline-none"
+          >
+            <option value="">Select a model</option>
+            {models.map(m => (
+              <option key={m.name} value={m.name}>{m.name}</option>
+            ))}
+          </select>
+        </div>
         <Card className="flex flex-col drop-shadow-2xl">  {/* URL Input */}
           <Label htmlFor="url">
             1. Target websites

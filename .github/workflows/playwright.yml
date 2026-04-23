@@ -23,15 +23,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install
 
-      - name: Build app
-        run: npm run build
-
-      - name: Start server
-        run: npm run dev
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:5173
-
       - name: Run Playwright tests
         run: npx playwright test
 

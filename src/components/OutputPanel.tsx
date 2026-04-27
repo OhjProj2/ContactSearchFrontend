@@ -1,6 +1,7 @@
  import { Table, ProgressCircle, Button } from "@heroui/react"
  import { exportToCSV } from "../utils/csv"
 import type { SearchResponse } from "../types"
+import { SaveButton } from "./SaveButton.tsx"
  
 type Props = {
   results: SearchResponse | null
@@ -45,11 +46,14 @@ export function OutputPanel({results, loading}: Props) {
           </Table.Content>
         </Table.ScrollContainer>
         <Table.Footer className="flex justify-between items-center gap-4 p-2">  
-        <p>Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong></p>              
+        <p>Found {results.data.contacts.length} contacts in <strong>{results.time.toFixed(2)}s</strong></p>
+        <div className="gap-2 flex">
+          <SaveButton id={results.id} />
           <Button
             onClick={() => exportToCSV(contacts)}>
             Export Data
           </Button>
+        </div>
           </Table.Footer>
         </Table>
         )}

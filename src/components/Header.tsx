@@ -1,4 +1,4 @@
-import { Button, Link } from "@heroui/react";
+import {  Link } from "@heroui/react";
 
 export function Header() {
 
@@ -17,18 +17,6 @@ export function Header() {
         <div className="hidden md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:flex items-center gap-6">
           <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Home</Link>
           <Link href="/coming_soon" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Databases</Link>
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          <Button size="sm"
-            onPress={() => window.location.href = "/login"}>
-            Log in
-          </Button>
-          <Button size="sm"
-            onPress={() => window.location.href = "/coming_soon"}>
-            Register
-          </Button>
         </div>
         
       </div>

@@ -1,6 +1,6 @@
 
 
-export default function Databases() {
+export default function ComingSoon() {
 
   return (
     <div style={{

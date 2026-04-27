@@ -1,9 +1,8 @@
 import {Routes, Route} from 'react-router-dom';
 
 import Home from './pages/home';
-import Login from './pages/Login';
-import Databases from './pages/coming_soon';
 import { MainLayout } from './layouts/MainLayout';
+import ComingSoon from './pages/coming_soon';
 
 function App() {
   
@@ -12,8 +11,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login onLogin={() => {}} />} />
-          <Route path="/coming_soon" element={<Databases />} />
+          <Route path="/coming_soon" element={<ComingSoon />} />
         </Route>
       </Routes>
     </>

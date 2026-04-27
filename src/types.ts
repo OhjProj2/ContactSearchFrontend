@@ -1,5 +1,5 @@
 export interface SearchParams {
-    url: string
+    url: string[]
     occupations: string[]
     dataPoints: string[]  
 }

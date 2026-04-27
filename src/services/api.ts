@@ -28,5 +28,6 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
 
 
     const result: SearchResponse = await response.json();
+    console.log(result);
     return result;
 }

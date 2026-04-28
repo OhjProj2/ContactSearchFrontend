@@ -20,8 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install
+      - name: Build frontend
+        run: npm run build
+
+      - name: Start preview server
+        run: npm run preview -- --port 5173 --strictPort &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:5173
 
       - name: Run Playwright tests
         run: npx playwright test

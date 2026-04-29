@@ -1,8 +1,9 @@
-import { Button, Label, TextArea, Card, Input, Chip } from "@heroui/react";
+import { Button, Label, TextArea, Card, Input, Chip, ListBox, Select } from "@heroui/react";
 import { useState, useEffect } from "react";
 import {CircleXmark, Magnifier, CirclePlus} from '@gravity-ui/icons';
 import type { SearchParams } from "../types";
 import { useFields } from "../hooks/useFields";
+import { useModels } from "../hooks/useModels";
 type InputPanelProps = {
   search: (params: SearchParams) => Promise<void>;
 };
@@ -15,6 +16,9 @@ type Field = {
 export function InputPanel({ search }: InputPanelProps) {
   const [url, setUrl] = useState<any>()
   const [occupations, setOccupations] = useState<string>("")
+  const [selectedModel, setSelectedModel] = useState<string>("");
+
+  const { models, loading: modelsLoading } = useModels();
 
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])
@@ -22,30 +26,53 @@ export function InputPanel({ search }: InputPanelProps) {
   
   const { fields: data } = useFields();
 
-useEffect(() => {
-  if (!data) return;
+  useEffect(() => {
+    if (!data) return;
 
-  setFields(data);
+    setFields(data);
 
-  const newActive: Record<string, boolean> = {};
-  data.forEach((f, index) => {
-    newActive[f.value] = index < 5;
-  });
-  setActiveFields(newActive);
-}, [data]);
+    const newActive: Record<string, boolean> = {};
+    data.forEach((f, index) => {
+      newActive[f.value] = index < 5;
+    });
+    setActiveFields(newActive);
+  }, [data]);
 
   const handleSearch = () => {
     const occupationsArray = occupations ?occupations.split(",").map((occ) => occ.trim()) : [""];
     const activeDataPoints = fields.filter(f => activeFields[f.value]).map(f => f.value);
-    search({ url, occupations: occupationsArray, dataPoints: activeDataPoints });
+    search({ url, occupations: occupationsArray, dataPoints: activeDataPoints, model: selectedModel });
   }
 
   return (
       <Card className="flex flex-col gap-4 w-full bg-surface-secondary">
-        
+
+        <Card>
+          <Select
+           placeholder="Select one"
+           onChange={(value) => setSelectedModel(String(value))}>
+            <Label>1. Model</Label>
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover>
+              <ListBox>
+                {models.map((m) => (
+                  <ListBox.Item key={m.name} id={m.name} textValue={m.name}>
+                    {m.name}
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                ))}
+              </ListBox>
+            </Select.Popover>
+          </Select>
+        </Card>
+
+
         <Card className="flex flex-col drop-shadow-2xl">  {/* URL Input */}
           <Label htmlFor="url">
-            1. Target websites
+            2. Target websites
           </Label>
           <TextArea
             id="url"
@@ -57,7 +84,7 @@ useEffect(() => {
         </Card>
 
         <Card className="flex flex-col">   {/* Occupation Input */}
-          <Label htmlFor="occupations">2. Occupation / Role</Label>
+          <Label htmlFor="occupations">3. Occupation / Role</Label>
           <TextArea
             id="occupations"
             placeholder="Enter occupation or role"
@@ -69,7 +96,7 @@ useEffect(() => {
         </Card>
 
         <Card>  {/* Data Points Input */}
-          <Label>3. Data Points to Extract</Label>
+          <Label>4. Data Points to Extract</Label>
           <Input
             placeholder="Enter data point"
             value={newField}

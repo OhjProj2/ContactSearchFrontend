@@ -1,8 +1,8 @@
 import {Routes, Route} from 'react-router-dom';
 
 import Home from './pages/home';
+import Databases from './pages/databases';
 import { MainLayout } from './layouts/MainLayout';
-import ComingSoon from './pages/coming_soon';
 
 function App() {
   
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/coming_soon" element={<ComingSoon />} />
+          <Route path="/databases" element={<Databases />} />
         </Route>
       </Routes>
     </>

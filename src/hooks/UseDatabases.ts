@@ -6,8 +6,11 @@ export function useDatabases() {
 
   useEffect(() => {
     listDatabases()
-      .then(setDatabases)
-      .catch(err => console.error("Error fetching databases: ", err))
+      .then((dbs) => {
+        setDatabases(dbs);
+        console.log("Fetched databases: ", dbs);
+      })
+      .catch(err => console.error("Error fetching databases: ", err));
   }, []);
 
   return { databases };

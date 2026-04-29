@@ -9,11 +9,9 @@ export function Databases() {
     <>
       <h1>Databases</h1>
       <Card>
-        {databases.length === 0 ? (databases.map((db) => (
+        {databases && (databases.map((db) => (
           <div key={db}>{db}</div>
-        ))) : (
-          <div>No databases found.</div>
-        )}
+        )))}
       </Card>
     </>
   );

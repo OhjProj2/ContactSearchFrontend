@@ -8,7 +8,8 @@ export const searchContacts = async (params: SearchParams): Promise<SearchRespon
     const payload = {
         occupations: params.occupations,
         contact_details: [...params.dataPoints],
-        url: params.url
+        url: params.url,
+        model: params.model
     };
 
     console.log(" sending request: ", payload);

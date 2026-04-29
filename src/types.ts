@@ -2,6 +2,7 @@ export interface SearchParams {
   url: string[];
   occupations: string[];
   dataPoints: string[];
+  model: string;
 }
 
 export interface SearchResponse {

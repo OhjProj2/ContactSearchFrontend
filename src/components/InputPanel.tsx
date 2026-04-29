@@ -18,7 +18,7 @@ export function InputPanel({ search }: InputPanelProps) {
   const [occupations, setOccupations] = useState<string>("")
   const [selectedModel, setSelectedModel] = useState<string>("");
 
-  const { models, loading: modelsLoading } = useModels();
+  const { models } = useModels();
 
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])

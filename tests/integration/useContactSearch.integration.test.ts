@@ -12,6 +12,7 @@ test("returns search results from API", async () => {
             url: "http://test.com",
             occupations: ["developer"],
             dataPoints: ["email"],
+            model: "ministral-3:8b",
         });
     });
 
@@ -32,6 +33,7 @@ test("sets loading state correctly during search", async () => {
             url: "http://test.com",
             occupations: ["developer"],
             dataPoints: ["email"],
+            model: "ministral-3:8b",
         });
     });
 
@@ -57,6 +59,7 @@ test("handles API failure gracefully", async () => {
             url: "http://test-url.com",
             occupations: ["developer"],
             dataPoints: ["email"],
+            model: "ministral-3:8b",
         });
     });
 

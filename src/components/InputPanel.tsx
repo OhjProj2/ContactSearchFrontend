@@ -18,7 +18,7 @@ export function InputPanel({ search }: InputPanelProps) {
   const [occupations, setOccupations] = useState<string>("")
   const [selectedModel, setSelectedModel] = useState<string>("");
 
-  const { models, loading: modelsLoading } = useModels();
+  const { models } = useModels();
 
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])
@@ -26,20 +26,12 @@ export function InputPanel({ search }: InputPanelProps) {
 
   const { fields: data } = useFields();
 
-  useEffect(() => {
-    if (!data) return;
+
   useEffect(() => {
     if (!data) return;
 
     setFields(data);
-    setFields(data);
 
-    const newActive: Record<string, boolean> = {};
-    data.forEach((f, index) => {
-      newActive[f.value] = index < 5;
-    });
-    setActiveFields(newActive);
-  }, [data]);
     const newActive: Record<string, boolean> = {};
     data.forEach((f, index) => {
       newActive[f.value] = index < 5;
@@ -51,7 +43,7 @@ export function InputPanel({ search }: InputPanelProps) {
     const urlArray = url ? url.split("\n").map((u: string) => u.trim()).filter((u: string) => u !== "") : [];
     const occupationsArray = occupations ? occupations.split(",").map((occ) => occ.trim()) : [""];
     const activeDataPoints = fields.filter(f => activeFields[f.value]).map(f => f.value);
-    search({ url: urlArray, occupations: occupationsArray, dataPoints: activeDataPoints });
+    search({ url: urlArray, occupations: occupationsArray, dataPoints: activeDataPoints, model: selectedModel });
   }
 
   return (
@@ -81,7 +73,7 @@ export function InputPanel({ search }: InputPanelProps) {
 
 
         <Card className="flex flex-col drop-shadow-2xl">  {/* URL Input */}
-          <Label htmlFor="url">
+          <Label htmlFor="One Per Line">
             2. Target websites
           </Label>
           <TextArea

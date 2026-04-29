@@ -2,6 +2,7 @@
 # ContactSearch
 
 [![CI](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/ci.yml)
+[![Playwright Tests](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/playwright.yml/badge.svg)](https://github.com/OhjProj2/ContactSearchFrontend/actions/workflows/playwright.yml)
 
 
 ContactSearch is a website, made for easy contact information search on different sites. It uses AI to gather and structurize the information.
@@ -19,11 +20,23 @@ ContactSearch is a website, made for easy contact information search on differen
 - TailwindCSS
 - Papaparser
 
-Testing:
+### Testing:
+#### Unit / Component tests
 - Vitest
 - React Testing Library
 - jest-dom
 - jsdom
+#### End-to-End tests
+- Playwright
+
+After installing dependencies, install browsers:
+
+```bash
+npx playwright install
+```
+
+Playwright tests simulate real user interactions in the browser.  
+Backend API calls are mocked to ensure stable and fast test execution.
 
 ## Installation
 
@@ -61,9 +74,15 @@ or
   npm run start
 ```
 
-## Run Tests Locally
+## Run Unit Tests Locally
 ```bash
 npm test
+```
+## Run E2E Test Locally
+- The frontend must be running locally (`npm run dev`)
+- The backend is NOT required, as API calls are mocked using Playwright route interception
+```bash
+npx playwright test
 ```
 ## Authors
 

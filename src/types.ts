@@ -13,7 +13,7 @@ export interface SearchResponse {
 }
 
 export interface SaveParams {
-  id: string;
+  ids: string[];
   db_name: string;
   col_name: string;
 }

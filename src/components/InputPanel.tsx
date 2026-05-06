@@ -100,7 +100,7 @@ export function InputPanel({ search }: InputPanelProps) {
               onChange={(e) => setNewOccupation(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") addOccupation(); }}
             />
-            <Button onClick={addOccupation}>
+            <Button data-testid="add-occupation" onClick={addOccupation}>
               Add
               <CirclePlus className="w-3.5 h-3.5"/>
             </Button>
@@ -131,7 +131,7 @@ export function InputPanel({ search }: InputPanelProps) {
             value={newField}
             onChange={(e) => setNewField(e.target.value)}
           />
-          <Button
+          <Button data-testid="add-data-point"
            onClick={() => {
             const fieldObj = { label: newField, value: newField };
             setFields(prev => [...prev, fieldObj]);

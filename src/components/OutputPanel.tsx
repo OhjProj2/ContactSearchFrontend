@@ -27,7 +27,7 @@ export function OutputPanel({ results, loading }: Props) {
 
 
       {results &&
-        (<Table className="h-">
+        (<Table>
           <Table.ScrollContainer>
             <Table.Content aria-label="Example table">
               <Table.Header>

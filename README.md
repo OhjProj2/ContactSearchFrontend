@@ -93,3 +93,4 @@ npx playwright test
 - [@VeeraElo](https://www.github.com/VeeraElo)
 
 
+ContactSearch is licensed under [MIT license](./LICENSE.md).

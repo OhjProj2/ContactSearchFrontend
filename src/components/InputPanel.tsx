@@ -20,6 +20,7 @@ export function InputPanel({ search }: InputPanelProps) {
   const [selectedModel, setSelectedModel] = useState<string>("");
 
   const { models } = useModels();
+
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])
   const [activeFields, setActiveFields] = useState<Record<string, boolean>>({});

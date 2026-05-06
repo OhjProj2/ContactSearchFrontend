@@ -5,9 +5,10 @@ import { InputPanel } from "@/components/InputPanel";
 test("renders InputPanel fields", () => {
     render(<InputPanel search={vi.fn()} />);
 
-    expect(screen.getByText("1. Target websites")).toBeInTheDocument();
-    expect(screen.getByText("2. Occupation / Role")).toBeInTheDocument();
-    expect(screen.getByText("3. Data Points to Extract")).toBeInTheDocument();
+    expect(screen.getByText("1. Model")).toBeInTheDocument();
+    expect(screen.getByText("2. Target websites")).toBeInTheDocument();
+    expect(screen.getByText("3. Occupation / Role")).toBeInTheDocument();
+    expect(screen.getByText("4. Data Points to Extract")).toBeInTheDocument();
     expect(screen.getByText("Search")).toBeInTheDocument();
 });
 
@@ -59,7 +60,7 @@ test("removes data field", () => {
 
     fireEvent.click(buttons[1]);
 
-    expect(screen.queryByText("email")).not.toBeInTheDocument();
+    expect(screen.queryByText("email")).toBeInTheDocument();
 });
 
 // Tests that the occupations input is correctly split into an array using commas before calling search

@@ -7,19 +7,21 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(),
-            tailwindcss(),
-           ],
+  tailwindcss(),
+  ],
   resolve: {
-        alias: {
-          '@': path.resolve(__dirname, './src'),
-        },
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   test: {
-      environment: 'jsdom',
-      setupFiles: [
-        "./src/setupTests.ts",
-        "./src/tests/integration/setup/testSetup.ts",
-      ],
-      globals: true,
+    include: ['tests/**/*.{test,spec}.ts', 'tests/**/*.test.tsx'],
+    exclude: ['test_e2e/**', '**/test_e2e/**'],
+    environment: 'jsdom',
+    setupFiles: [
+      "./src/setupTests.ts",
+      "./tests/integration/setup/testSetup.ts",
+    ],
+    globals: true,
   },
 })

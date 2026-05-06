@@ -1,6 +1,6 @@
 import { Button, Label, TextArea, Card, Input, Chip, ListBox, Select } from "@heroui/react";
 import { useState, useEffect } from "react";
-import {CircleXmark, Magnifier, CirclePlus} from '@gravity-ui/icons';
+import { CircleXmark, Magnifier, CirclePlus } from '@gravity-ui/icons';
 import type { SearchParams } from "../types";
 import { useFields } from "../hooks/useFields";
 import { useModels } from "../hooks/useModels";
@@ -15,7 +15,8 @@ type Field = {
 
 export function InputPanel({ search }: InputPanelProps) {
   const [url, setUrl] = useState<any>()
-  const [occupations, setOccupations] = useState<string>("")
+  const [occupations, setOccupations] = useState<string[]>([])
+  const [newOccupation, setNewOccupation] = useState<string>("")
   const [selectedModel, setSelectedModel] = useState<string>("");
 
   const { models } = useModels();
@@ -23,8 +24,9 @@ export function InputPanel({ search }: InputPanelProps) {
   const [newField, setNewField] = useState<string>("")
   const [fields, setFields] = useState<Field[]>([])
   const [activeFields, setActiveFields] = useState<Record<string, boolean>>({});
-  
+
   const { fields: data } = useFields();
+
 
   useEffect(() => {
     if (!data) return;
@@ -39,11 +41,17 @@ export function InputPanel({ search }: InputPanelProps) {
   }, [data]);
 
   const handleSearch = () => {
-    const occupationsArray = occupations ?occupations.split(",").map((occ) => occ.trim()) : [""];
+    const urlArray = url ? url.split("\n").map((u: string) => u.trim()).filter((u: string) => u !== "") : [];
     const activeDataPoints = fields.filter(f => activeFields[f.value]).map(f => f.value);
-    search({ url, occupations: occupationsArray, dataPoints: activeDataPoints, model: selectedModel });
+    search({ url: urlArray, occupations, dataPoints: activeDataPoints, model: selectedModel });
   }
-
+  const addOccupation = () => {
+  const trimmed = newOccupation.trim();
+  if (trimmed && !occupations.includes(trimmed)) {
+    setOccupations(prev => [...prev, trimmed]);
+    setNewOccupation("");
+  }
+};
   return (
       <Card className="flex flex-col gap-4 w-full bg-surface-secondary">
 
@@ -71,8 +79,8 @@ export function InputPanel({ search }: InputPanelProps) {
 
 
         <Card className="flex flex-col drop-shadow-2xl">  {/* URL Input */}
-          <Label htmlFor="url">
-            2. Target websites
+          <Label>
+            2. Target websites (One Per Line)
           </Label>
           <TextArea
             id="url"
@@ -83,16 +91,37 @@ export function InputPanel({ search }: InputPanelProps) {
             required={true}/>
         </Card>
 
-        <Card className="flex flex-col">   {/* Occupation Input */}
-          <Label htmlFor="occupations">3. Occupation / Role</Label>
-          <TextArea
-            id="occupations"
-            placeholder="Enter occupation or role"
-            rows={3}
-            value={occupations}
-            onChange={(e) => {
-              setOccupations(e.target.value)
-            }}/>
+        <Card className="flex flex-col">
+          <Label htmlFor="occupations">2. Occupation / Role</Label>
+          <div className="flex flex-row gap-2">
+            <Input
+              placeholder="Enter occupation or role"
+              value={newOccupation}
+              onChange={(e) => setNewOccupation(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") addOccupation(); }}
+            />
+            <Button onClick={addOccupation}>
+              Add
+              <CirclePlus className="w-3.5 h-3.5"/>
+            </Button>
+          </div>
+          <div className="flex flex-row gap-2 flex-wrap mt-2">
+            {occupations.map((occ) => (
+              <Chip key={occ} className="chip--lg bg-primary text-white border border-gray-400">
+                <div className="flex items-center justify-between w-full">
+                  <span>{occ}</span>
+                  <Button
+                    className="p-0 ml-2"
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setOccupations(prev => prev.filter(o => o !== occ))}
+                  >
+                    <CircleXmark className="w-3.5 h-3.5 m-0"/>
+                  </Button>
+                </div>
+              </Chip>
+            ))}
+          </div>
         </Card>
 
         <Card>  {/* Data Points Input */}
@@ -108,51 +137,51 @@ export function InputPanel({ search }: InputPanelProps) {
             setFields(prev => [...prev, fieldObj]);
             setActiveFields(prev => ({ ...prev, [fieldObj.value]: true }));
             setNewField("");
-            }}>
-            Add
-            <CirclePlus className="w-3.5 h-3.5"/>
-          </Button>
-          <div className="flex flex-row gap-2 flex-wrap mt-2">
-            {fields.map((field) => (
-              <Chip
-                key={field.value}
-                className={`chip--lg cursor-pointer border border-transparent 
-                  ${activeFields[field.value] ? "bg-primary text-white border-gray-400" : "bg-surface-light text-muted"}`}
-              >
-                <div
-                  className="flex items-center justify-between w-full"
-                  onClick={() =>
-                    setActiveFields(prev => ({ ...prev, [field.value]: !prev[field.value] }))
-                  }
-                >
-                  <span>{field.label}</span>
-                  <Button
-                    className="p-0 ml-2"
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => {
-                      setFields(prev => prev.filter(f => f.value !== field.value));
-                      setActiveFields(prev => {
-                        const copy = { ...prev };
-                        delete copy[field.value];
-                        return copy;
-                      });
-                    }}
-                  >
-                    <CircleXmark className="w-3.5 h-3.5 m-0"/>
-                  </Button>
-                </div>
-              </Chip>
-            ))}
-          </div>  
-        </Card>
-
-        <Button
-          onClick={handleSearch}
-          className="w-full">
-          Search
-          <Magnifier className="w-4 h-4"/>
+          }}>
+          Add
+          <CirclePlus className="w-3.5 h-3.5" />
         </Button>
+        <div className="flex flex-row gap-2 flex-wrap mt-2">
+          {fields.map((field) => (
+            <Chip
+              key={field.value}
+              className={`chip--lg cursor-pointer border border-transparent 
+                  ${activeFields[field.value] ? "bg-primary text-white border-gray-400" : "bg-surface-light text-muted"}`}
+            >
+              <div
+                className="flex items-center justify-between w-full"
+                onClick={() =>
+                  setActiveFields(prev => ({ ...prev, [field.value]: !prev[field.value] }))
+                }
+              >
+                <span>{field.label}</span>
+                <Button
+                  className="p-0 ml-2"
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setFields(prev => prev.filter(f => f.value !== field.value));
+                    setActiveFields(prev => {
+                      const copy = { ...prev };
+                      delete copy[field.value];
+                      return copy;
+                    });
+                  }}
+                >
+                  <CircleXmark className="w-3.5 h-3.5 m-0" />
+                </Button>
+              </div>
+            </Chip>
+          ))}
+        </div>
       </Card>
+
+      <Button
+        onClick={handleSearch}
+        className="w-full">
+        Search
+        <Magnifier className="w-4 h-4" />
+      </Button>
+    </Card>
   );
 }

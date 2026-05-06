@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchContacts } from "../services/searchContancts";
+import { searchContacts } from "../services/searchContacts";
 import type { SearchResponse, SearchParams } from "../types";
 
 export function useSearch() {

@@ -16,7 +16,7 @@ export function Header() {
         {/* Links (Desktop) */}
         <div className="hidden md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:flex items-center gap-6">
           <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Home</Link>
-          <Link href="/coming_soon" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Databases</Link>
+          <Link href="/databases" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">Databases</Link>
         </div>
         
       </div>

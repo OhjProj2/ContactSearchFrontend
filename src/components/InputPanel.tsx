@@ -92,7 +92,7 @@ export function InputPanel({ search }: InputPanelProps) {
         </Card>
 
         <Card className="flex flex-col">
-          <Label htmlFor="occupations">2. Occupation / Role</Label>
+          <Label htmlFor="occupations">3. Occupation / Role</Label>
           <div className="flex flex-row gap-2">
             <Input
               placeholder="Enter occupation or role"

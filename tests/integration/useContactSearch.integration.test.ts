@@ -9,7 +9,7 @@ test("returns search results from API", async () => {
 
     await act(async () => {
         await result.current.search({
-            url: "http://test.com",
+            url: ["http://test.com"],
             occupations: ["developer"],
             dataPoints: ["email"],
             model: "ministral-3:8b",
@@ -30,7 +30,7 @@ test("sets loading state correctly during search", async () => {
 
     await act(async () => {
         await result.current.search({
-            url: "http://test.com",
+            url: ["http://test.com"],
             occupations: ["developer"],
             dataPoints: ["email"],
             model: "ministral-3:8b",
@@ -56,7 +56,7 @@ test("handles API failure gracefully", async () => {
 
     await act(async () => {
         await result.current.search({
-            url: "http://test-url.com",
+            url: ["http://test-url.com"],
             occupations: ["developer"],
             dataPoints: ["email"],
             model: "ministral-3:8b",

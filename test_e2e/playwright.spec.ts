@@ -2,7 +2,9 @@ import { test, expect, } from '@playwright/test';
 
 
 async function mockBackend(page) {
-  await page.route('**/seek/', async (route) => {
+  await page.route('**/seek/', async (route, request) => {
+    const postData = request.postDataJSON();
+    expect(postData.occupations).toContain('developer');
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -39,7 +41,14 @@ test('user can search and see results', async ({ page }) => {
   await page.goto('/');
 
   await page.fill('#url', 'https://example.com');
-  await page.fill('#occupations', 'developer');
+
+  const input = page.getByPlaceholder('Enter occupation or role');
+
+  await input.fill('developer');
+
+  await page.getByTestId('add-occupation').click();
+
+  await expect(page.getByText('developer')).toBeVisible();
 
   await page.getByRole('button', { name: 'Search' }).click();
 
@@ -55,6 +64,7 @@ test('user can toggle data points', async ({ page }) => {
       ]
     });
   });
+
   await page.goto('/');
 
   const chip = page.getByText('email');
@@ -66,8 +76,11 @@ test('user can toggle data points', async ({ page }) => {
 test('user can add new data field', async ({ page }) => {
   await page.goto('/');
 
-  await page.fill('input[placeholder="Enter data point"]', 'linkedin');
-  await page.getByRole('button', { name: 'Add' }).click();
+  const input = page.getByPlaceholder('Enter data point');
+
+  await input.fill('linkedin');
+
+  await page.getByTestId('add-data-point').click();
 
   await expect(page.getByText('linkedin')).toBeVisible();
 });
@@ -76,6 +89,14 @@ test('user can open save modal', async ({ page }) => {
   await page.goto('/');
 
   await page.fill('#url', 'https://example.com');
+
+  const input = page.getByPlaceholder('Enter occupation or role');
+  await input.fill('developer');
+
+  await page.getByTestId('add-occupation').click();
+
+  await expect(page.getByText('developer')).toBeVisible();
+
   await page.getByRole('button', { name: 'Search' }).click();
 
   await page.getByRole('button', { name: 'Save To Database' }).click();
@@ -83,4 +104,22 @@ test('user can open save modal', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Save To Database' })
   ).toBeVisible();
+});
+
+test('user can search with multiple urls and see results', async ({ page }) => {
+  await page.goto('/');
+
+  await page.fill('#url', `https://example.com
+https://test.com`);
+
+  const input = page.getByPlaceholder('Enter occupation or role');
+  await input.fill('developer');
+
+  await page.getByTestId('add-occupation').click();
+
+  await expect(page.getByText('developer')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Search' }).click();
+
+  await expect(page.getByText('John Doe')).toBeVisible();
 });
